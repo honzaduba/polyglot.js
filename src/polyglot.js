@@ -28,8 +28,11 @@
 
     'use strict';
 
-    var forEach = function (target, callback) {
-        Array.prototype.forEach.call(target, callback);
+    var forEach = function (target, callback, context) {
+        (Object.getOwnPropertyNames(target) || []).forEach(function (name) {
+            var value = target[name];
+            callback.call(context, value, name);
+        });
     };
     var warning = function (display, message) {
         console.warn(message);
